@@ -1,9 +1,11 @@
 import { useState } from 'react'
 import type{NextPage} from 'next'
 import {useRouter} from 'next/router'
+import { observer } from 'mobx-react-lite'
 import {Menu, Button ,Avatar, Dropdown} from 'antd'
 import { LoginOutlined, HomeOutlined } from '@ant-design/icons'
 import {useStore} from 'store/index'
+import requestInstance from 'service/fetch'
 import styles from './index.module.scss'
 import Link from 'next/link'
 import Login from 'components/Login'
@@ -27,11 +29,23 @@ const Navbar:NextPage = () => {
 		setIsShowLogin(false)
 	}
 
+	const handleGotoPersonalPage = () => {
+
+	}
+
+	const handleLogout = () => {
+		requestInstance.post('/api/user/logout').then( (res: any)  => {
+			if(res?.code === 0) {
+				store.user.setUserInfo({})
+			}
+		})
+	}
+
 	const renderDropdownMenu = () => {
 		return (
 			<Menu>
-				<Menu.Item><LoginOutlined/> &nbsp;个人主页</Menu.Item>
-				<Menu.Item><HomeOutlined/>&nbsp;退出系统</Menu.Item>
+				<Menu.Item onClick={handleGotoPersonalPage}><LoginOutlined/> &nbsp;个人主页</Menu.Item>
+				<Menu.Item onClick={handleLogout}><HomeOutlined/>&nbsp;退出系统</Menu.Item>
 			</Menu>
 		)
 	}
@@ -67,4 +81,4 @@ const Navbar:NextPage = () => {
 	</div>
 }
 
-export default Navbar
+export default observer(Navbar)

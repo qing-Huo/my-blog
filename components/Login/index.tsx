@@ -1,5 +1,6 @@
 import Countdown from 'components/CountDown';
 import React ,{ ChangeEvent, useState } from 'react';
+import { observer } from 'mobx-react-lite'
 import { message } from 'antd'
 import {useStore} from 'store/index'
 import requestInstance from 'service/fetch';
@@ -123,4 +124,4 @@ const Login = ( props: IProps) => {
 
 }
 
-export default Login
+export default observer(Login)

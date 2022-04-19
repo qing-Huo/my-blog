@@ -2,7 +2,7 @@ import React,{createContext, ReactElement, useContext} from "react"
 import { useLocalObservable, enableStaticRendering  } from 'mobx-react-lite'
 import createStore, { IStore } from "./rootStore"
 
-enableStaticRendering(true)
+enableStaticRendering(!process.browser)
 
 interface IProps {
 	initiaValue: Record<any, any>;
