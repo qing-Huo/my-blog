@@ -79,8 +79,12 @@ const Login = ( props: IProps) => {
 		}
 	}
 
-	const handleOAuthGithub = () => {
-
+	// clientID: 9735684fbb0f530a3b5b
+	// client-secret: 618b00e41b6526e648b8c376b67d77ecadbea337
+	 const handleOAuthGithub = () => {
+		const githubClientID = '9735684fbb0f530a3b5b';
+		const redirectUri = 'http://localhost:3000/api/oauth/redirect'
+		window.open(`https://github.com/login/oauth/authorize?client_id=${githubClientID}&redirect_uri=${redirectUri}`)
 	}
 
 	const handleFormChange = (evt: ChangeEvent<HTMLInputElement>) => {
