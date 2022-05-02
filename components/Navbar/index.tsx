@@ -2,7 +2,7 @@ import { useState } from 'react'
 import type{NextPage} from 'next'
 import {useRouter} from 'next/router'
 import { observer } from 'mobx-react-lite'
-import {Menu, Button ,Avatar, Dropdown} from 'antd'
+import {Menu, Button ,message ,Avatar, Dropdown} from 'antd'
 import { LoginOutlined, HomeOutlined } from '@ant-design/icons'
 import {useStore} from 'store/index'
 import requestInstance from 'service/fetch'
@@ -10,15 +10,21 @@ import styles from './index.module.scss'
 import Link from 'next/link'
 import Login from 'components/Login'
 import { navs } from './config'
+import { userInfo } from 'os'
 
 const Navbar:NextPage = () => {
 	const store = useStore();
-	const {avatar,id} = store.user.userInfo;
-	const {pathname} = useRouter()
+	const {avatar,userId} = store.user.userInfo;
+	const {pathname,push} = useRouter()
 	const [ isShowLogin, setIsShowLogin] = useState(false)
 
-	const handleGotoEditorPage = () => {
 
+	const handleGotoEditorPage = () => {
+		if( userId ) {
+			push('/editor/new')
+		} else {
+			message.warning('清闲登陆。。')
+		}
 	}
 
 	const handleLogin = () => {
@@ -30,7 +36,7 @@ const Navbar:NextPage = () => {
 	}
 
 	const handleGotoPersonalPage = () => {
-
+		push(`/user/${userId}`)
 	}
 
 	const handleLogout = () => {
@@ -65,7 +71,7 @@ const Navbar:NextPage = () => {
 			<Button onClick={handleGotoEditorPage}>写文章</Button>
 
 			{
-			id ? (
+			userId ? (
 				<>
 					<Dropdown overlay={renderDropdownMenu()} placement="bottomLeft">
 						<Avatar src={avatar} size={32}/>
